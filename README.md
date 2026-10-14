@@ -1,142 +1,125 @@
-# Bolt for JavaScript Template App
+# Slack Jira Time Tracker Bot
 
-This is a generic Bolt for JavaScript template app used to build out Slack apps.
+A Slack bot integrated with Jira that allows users to easily view their Jira tickets directly from Slack and track the time they spend working on them.
 
-## Setup
+## 🚀 Features
 
-Before getting started, make sure you have a development workspace where you have permissions to install apps. If you don't have one setup, go ahead and [create one](https://slack.com/create).
+- 📋 **List Jira Tickets** — View your assigned Jira tickets directly in Slack.
+- ⏱️ **Time Tracking** — Track the amount of time spent working on Jira tickets.
+- 🔗 **Jira Integration** — Connect Slack with Jira to make ticket management easier.
+- 💬 **Slack Commands** — Interact with Jira through simple Slack commands.
+- ⚡ **Easy Access** — Manage and track your Jira work without constantly switching between Slack and Jira.
 
-### Developer Program
+## 🛠️ Technologies
 
-Join the [Slack Developer Program](https://api.slack.com/developer-program) for exclusive access to sandbox environments for building and testing your apps, tooling, and resources created to help you build and grow.
+- **TypeScript**
+- **Node.js**
+- **Slack Bolt**
+- **Jira REST API**
+- **Axios**
+- **Slack Socket Mode**
 
-## Installation
+## 📌 How It Works
 
-<details><summary><strong>Using Slack CLI</strong></summary>
+The bot connects Slack with Jira through their APIs.
 
-Install the latest version of the Slack CLI for your operating system:
+Users can interact with the bot directly from Slack to:
 
-- [Slack CLI for macOS & Linux](https://docs.slack.dev/tools/slack-cli/guides/installing-the-slack-cli-for-mac-and-linux/)
-- [Slack CLI for Windows](https://docs.slack.dev/tools/slack-cli/guides/installing-the-slack-cli-for-windows/)
+1. Request their Jira tickets.
+2. View the tickets assigned to them.
+3. Select or work on a Jira ticket.
+4. Track the time spent working on the ticket.
+5. Send the tracked work time back to Jira.
 
-You'll also need to log in if this is your first time using the Slack CLI.
+This makes it easier for users to manage their Jira work while staying inside Slack.
 
-```sh
-slack login
+## ⚙️ Setup
+
+### 1. Clone the repository
+
+```bash
+git clone <your-repository-url>
+cd <repository-name>
 ```
 
-#### Initializing the project
+### 2. Install dependencies
 
-```sh
-slack create my-bolt-js-app --template slack-samples/bolt-js-starter-template
-cd my-bolt-js-app
-```
-
-After cloning, you're all set to start developing!
-
-</details>
-
-<details><summary><strong>Using Terminal</strong></summary>
-
-#### Create Your Slack App
-
-1. Open [https://api.slack.com/apps/new](https://api.slack.com/apps/new) and choose "From an app manifest"
-2. Choose the workspace you want to install the application to
-3. Copy the contents of [manifest.json](./manifest.json) into the text box that says `*Paste your manifest code here*` (within the JSON tab) and click _Next_
-4. Review the configuration and click _Create_
-5. Click _Install to Workspace_ and _Allow_ on the screen that follows. You'll then be redirected to the App Configuration dashboard.
-
-#### Environment Variables
-
-Before you can run the app, you'll need to store some environment variables.
-
-1. Rename `.env.sample` to `.env`
-2. Open your apps configuration page from [this list](https://api.slack.com/apps), click _OAuth & Permissions_ in the left hand menu, then copy the _Bot User OAuth Token_ into your `.env` file under `SLACK_BOT_TOKEN`
-3. Click _Basic Information_ from the left hand menu and follow the steps in the _App-Level Tokens_ section to create an app-level token with the `connections:write` scope. Copy that token into your `.env` as `SLACK_APP_TOKEN`.
-
-#### Initializing the project
-
-```sh
-git clone https://github.com/slack-samples/bolt-js-starter-template.git my-bolt-js-app
-cd my-bolt-js-app
-```
-
-#### Install dependencies
-
-```sh
+```bash
 npm install
 ```
 
-</details>
+### 3. Configure environment variables
 
-## Development
+Create a `.env` file in the project root and add the required Slack and Jira credentials.
 
-### Starting the app
-
-#### Slack CLI
-
-```sh
-slack run
+```env
+SLACK_BOT_TOKEN=your_slack_bot_token
+SLACK_APP_TOKEN=your_slack_app_token
+JIRA_BASE_URL=your_jira_url
+JIRA_EMAIL=your_jira_email
+JIRA_API_TOKEN=your_jira_api_token
 ```
 
-#### Terminal
+> Never commit your `.env` file or expose your API tokens.
 
-```sh
+### 4. Start the bot
+
+```bash
 npm start
 ```
 
-### Linting
+Or, if you are using the development setup:
 
-```zsh
-# Run lint for code formatting and linting
-npm run lint
+```bash
+npm run dev
 ```
 
-### Testing
+## 💻 Slack Commands
 
-```zsh
-# Run test for unit tests
-npm test
+| Command | Description |
+|---|---|
+| `/list-tickets` | Lists the user's Jira tickets |
+| `/track-time` | Starts or manages time tracking |
+
+> More commands will be added as the project develops.
+
+## 🔄 Project Flow
+
+```text
+User
+  ↓
+Slack
+  ↓
+Slack Bot
+  ↓
+Jira API
+  ↓
+Jira Tickets / Worklogs
 ```
 
-## Project Structure
+The bot acts as a bridge between Slack and Jira, allowing users to interact with their Jira tasks directly from Slack.
 
-### `manifest.json`
+## 📚 What I Learned
 
-`manifest.json` is a configuration for Slack apps. With a manifest, you can create an app with a pre-defined configuration, or adjust the configuration of an existing app.
+While developing this project, I worked with:
 
-### `app.js`
+- Slack Bolt and Slack app development
+- TypeScript
+- REST APIs
+- Jira API integration
+- Environment variables and API credentials
+- Slack commands and events
+- Time tracking and Jira worklogs
+- Connecting multiple services together
 
-`app.js` is the entry point for the application and is the file you'll run to start the server. This project aims to keep this file as thin as possible, primarily using it as a way to route inbound requests.
+## 🚧 Project Status
 
-### `/listeners`
+**In Development**
 
-Every incoming request is routed to a "listener". Inside this directory, we group each listener based on the Slack Platform feature used, so `/listeners/shortcuts` handles incoming [Shortcuts](https://docs.slack.dev/interactivity/implementing-shortcuts/) requests, `/listeners/views` handles [View submissions](https://api.slack.com/reference/interaction-payloads/views#view_submission) and so on.
+The project is currently being developed, with additional Jira and time-tracking features planned.
 
-## App Distribution / OAuth
+## 👨‍💻 Author
 
-Only implement OAuth if you plan to distribute your application across multiple workspaces. A separate `app-oauth.js` file can be found with relevant OAuth settings.
+**Mohammad Arabiat**
 
-When using OAuth, Slack requires a public URL where it can send requests. In this template app, we've used [`ngrok`](https://ngrok.com/download). Checkout [this guide](https://ngrok.com/docs#getting-started-expose) for setting it up.
-
-Start `ngrok` to access the app on an external network and create a redirect URL for OAuth.
-
-```
-ngrok http 3000
-```
-
-This output should include a forwarding address for `http` and `https` (we'll use `https`). It should look something like the following:
-
-```
-Forwarding   https://3cb89939.ngrok.io -> http://localhost:3000
-```
-
-Navigate to **OAuth & Permissions** in your app configuration and click **Add a Redirect URL**. The redirect URL should be set to your `ngrok` forwarding address with the `slack/oauth_redirect` path appended. For example:
-
-```
-https://3cb89939.ngrok.io/slack/oauth_redirect
-```
-
-## Make This Template a Code Assistant App
-
-Take your exploration a step further and make this template an [AI app](https://tools.slack.dev/bolt-js/concepts/ai-apps) with the use of a [Hugging Face](https://huggingface.co) model. Follow [this tutorial](https://tools.slack.dev/bolt-js/tutorials/code-assistant) to find out how.
+Computer Science Student
